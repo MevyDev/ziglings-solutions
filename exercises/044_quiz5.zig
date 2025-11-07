@@ -41,7 +41,8 @@ pub fn main() void {
 fn visitElephants(first_elephant: *Elephant) void {
     var e = first_elephant;
 
-    while (e.visited != 2) {
+    const visit_limit: u8 = 1;
+    while (e.visited < visit_limit) {
         std.debug.print("Elephant {u}. ", .{e.letter});
         e.visited+=1;
         e = e.tail;
