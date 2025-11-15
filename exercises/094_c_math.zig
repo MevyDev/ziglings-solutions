@@ -26,16 +26,18 @@ const std = @import("std");
 
 const c = @cImport({
     // What do we need here?
-    ???
+    @cInclude("math.h");
+    @cInclude("stdio.h");
 });
 
 pub fn main() !void {
-    const angle = 765.2;
-    const circle = 360;
+    const angle: f64 = 765.2;
+    const circle: u16 = 360;
 
     // Here we call the C function 'fmod' to get our normalized angle.
-    const result = c.fmod(angle, circle);
+    const result: f64 = c.fmod(angle, circle);
 
     // We use formatters for the desired precision and to truncate the decimal places
-    std.debug.print("The normalized angle of {d: >3.1} degrees is {d: >3.1} degrees.\n", .{ angle, result });
+    // std.debug.print("The normalized angle of {d: >3.1} degrees is {d: >3.1} degrees.\n", .{ angle, result });
+    _ = c.printf("The normalized angle of %.1f degrees is %.1f degrees.\n", angle, result);
 }
