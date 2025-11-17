@@ -57,7 +57,7 @@ pub fn main() void {
 //
 //    +-------------+
 //    | Celebration |
-//    | Area  * * * |
+//    | Area  yipee |
 //    +-------------+
 //
 // Please keep your celebrating within the area provided.
