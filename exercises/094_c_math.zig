@@ -38,6 +38,7 @@ pub fn main() !void {
     const result: f64 = c.fmod(angle, circle);
 
     // We use formatters for the desired precision and to truncate the decimal places
+
     // std.debug.print("The normalized angle of {d: >3.1} degrees is {d: >3.1} degrees.\n", .{ angle, result });
-    _ = c.printf("The normalized angle of %.1f degrees is %.1f degrees.\n", angle, result);
+    _ = c.fprintf(c.stderr, "The normalized angle of %.1f degrees is %.1f degrees.\n", angle, result);
 }
