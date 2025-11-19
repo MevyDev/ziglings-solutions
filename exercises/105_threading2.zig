@@ -72,26 +72,28 @@ const std = @import("std");
 
 pub fn main() !void {
     const count = 1_000_000_000;
-    var pi_plus: f64 = 0;
-    var pi_minus: f64 = 0;
+    var pi_plus1: f64 = 0;
+    var pi_plus2: f64 = 0;
+    var pi_minus1: f64 = 0;
+    var pi_minus2: f64 = 0;
 
     {
         // First thread to calculate the plus numbers.
-        const handle1 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_plus, 5, count });
+        const handle1 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_plus1, 5, count });
         defer handle1.join();
 
         // Second thread to calculate the minus numbers.
-        const handle2 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_minus, 3, count });
+        const handle2 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_minus1, 3, count });
         defer handle2.join();
 
-        const handle3 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_plus, 9, count });
+        const handle3 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_plus2, 9, count });
         defer handle3.join();
 
-        const handle4 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_minus, 7, count });
+        const handle4 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_minus2, 7, count });
         defer handle4.join();
     }
     // Here we add up the results.
-    std.debug.print("PI ≈ {d:.8}\n", .{4 + pi_plus - pi_minus});
+    std.debug.print("PI ≈ {d:.8}\n", .{4 + pi_plus1+pi_plus2-pi_minus1-pi_minus2});
 }
 
 fn thread_pi(pi: *f64, begin: u64, end: u64) !void {
@@ -100,6 +102,32 @@ fn thread_pi(pi: *f64, begin: u64, end: u64) !void {
         pi.* += 4 / @as(f64, @floatFromInt(n));
     }
 }
+
+// pub fn main() !void {
+//     const count = 1_000_000_000;
+//     var pi_plus: f64 = 0;
+//     var pi_minus: f64 = 0;
+//
+//     {
+//         // First thread to calculate the plus numbers.
+//         const handle1 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_plus, 5, count });
+//         defer handle1.join();
+//
+//         // Second thread to calculate the minus numbers.
+//         const handle2 = try std.Thread.spawn(.{}, thread_pi, .{ &pi_minus, 3, count });
+//         defer handle2.join();
+//     }
+//     // Here we add up the results.
+//     std.debug.print("PI ≈ {d:.8}\n", .{4 + pi_plus - pi_minus});
+// }
+//
+// fn thread_pi(pi: *f64, begin: u64, end: u64) !void {
+//     var n: u64 = begin;
+//     while (n < end) : (n += 4) {
+//         pi.* += 4 / @as(f64, @floatFromInt(n));
+//     }
+// }
+
 // If you wish, you can increase the number of loop passes, which
 // improves the number of digits.
 //
